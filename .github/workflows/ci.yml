@@ -1,4 +1,4 @@
-name: CI
+name: CI & Quality Assurance
 
 on:
   push:
@@ -15,24 +15,52 @@ concurrency:
 
 jobs:
   backend-tests:
-    name: Backend Integration & Security Tests (Node ${{ matrix.node-version }})
+    name: Backend Integration & Security Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [24]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24
 
       - name: Verify Node.js runtime
         run: node -v
 
-      - name: Run integration and security test suites
+      - name: Run test suites (Integration & Security)
         run: npm test
+
+  wasm-build-check:
+    name: Kotlin Wasm Frontend Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle Cache
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Clone Miuix UI framework
+        run: |
+          git clone https://github.com/compose-miuix-ui/miuix.git vendor/miuix
+          cd vendor/miuix
+          git checkout d8efe187
+
+      - name: Compile Kotlin Compose WebAssembly Distribution
+        run: |
+          chmod +x gradlew
+          ./gradlew :webApp:wasmJsBrowserDistribution -Prelease --no-daemon
+
+      - name: Verify Wasm Output Bundle Integrity
+        run: |
+          test -f webApp/build/dist/wasmJs/productionExecutable/index.html
+          test -f webApp/build/dist/wasmJs/productionExecutable/composeApp.js
+          echo "[OK] Wasm bundle compiled successfully."
