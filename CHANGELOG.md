@@ -18,6 +18,8 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ### Changed
 - Ampliado `.env.example` con variables opcionales de seguridad y entorno comentadas (`DIST_WEB_DIR`, `ALLOWED_ORIGINS`, `TRUST_PROXY`, `COOKIE_SECURE`, `LOCAL_AUTO_ADMIN`, `SEED_DEMO_CATALOG`).
+- Rediseño completo e infinitamente mejorado de `README.md` siguiendo estándares de la industria (diagramas Mermaid, especificación de arquitectura, tablas de API REST, seguridad de cero dependencias y guías CLI).
+- Actualizadas las URLs de repositorio a `MituOS2/TBD-Supply` en `package.json`, `CONTRIBUTING.md` y `README.md`.
 
 ---
 
