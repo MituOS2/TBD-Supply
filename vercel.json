@@ -1,4 +1,5 @@
 {
+  "framework": null,
   "outputDirectory": "server/dist-web",
   "rewrites": [
     {
