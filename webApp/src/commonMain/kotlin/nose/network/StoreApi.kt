@@ -135,7 +135,8 @@ class StoreApi {
                 .getOrElse { "Error HTTP ${resp.status}" }
             throw ApiException(resp.status, errMsg)
         }
-        return json.decodeFromString<T>(resp.body)
+        return runCatching { json.decodeFromString<T>(resp.body) }
+            .getOrElse { throw ApiException(resp.status, "Respuesta invalida del servidor") }
     }
 
     suspend fun getMe(): AuthResponseDto {
