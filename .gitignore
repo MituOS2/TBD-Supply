@@ -15,7 +15,6 @@ server/data/
 .gradle/
 build/
 **/build/
-server/dist-web/
 vendor/
 .tools/
 node_modules/
