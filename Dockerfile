@@ -15,6 +15,9 @@ COPY gradle/ gradle/
 COPY gradlew gradlew.bat build.gradle.kts settings.gradle.kts gradle.properties ./
 COPY webApp/ webApp/
 
+# Set Gradle memory limits for cloud builds
+ENV GRADLE_OPTS="-Dorg.gradle.jvmargs='-Xmx1536m -XX:+UseG1GC'"
+
 # Grant execution rights and compile Wasm frontend
 RUN chmod +x gradlew && ./gradlew :webApp:wasmJsBrowserDistribution -Prelease --no-daemon
 
