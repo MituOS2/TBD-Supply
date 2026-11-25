@@ -15,6 +15,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - Plantillas de GitHub para Pull Requests (`.github/PULL_REQUEST_TEMPLATE.md`) y formularios de Issues (`.github/ISSUE_TEMPLATE/`).
 - Documentación de gobernanza: guía de contribución (`CONTRIBUTING.md`), política de seguridad (`SECURITY.md`) y registro de cambios (`CHANGELOG.md`).
 - Documentación técnica ampliada en `README.md` (diagrama de arquitectura, referencia completa de API REST, variables de entorno, esquema SQLite y guía de desarrollo).
+- `Dockerfile` multietapa (compilación JDK 21 Kotlin Wasm + servidor Node.js 24) y Blueprint `render.yaml` para despliegue automático en Render.com.
 
 ### Changed
 - Ampliado `.env.example` con variables opcionales de seguridad y entorno comentadas (`DIST_WEB_DIR`, `ALLOWED_ORIGINS`, `TRUST_PROXY`, `COOKIE_SECURE`, `LOCAL_AUTO_ADMIN`, `SEED_DEMO_CATALOG`).

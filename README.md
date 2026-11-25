@@ -16,6 +16,7 @@ Sistema e-commerce full-stack desarrollado con **Kotlin / Compose Multiplatform 
 - [Arquitectura y Stack Técnico](#arquitectura-y-stack-técnico)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Inicio Rápido](#inicio-rápido)
+- [Despliegue en Render](#despliegue-en-render)
 - [Desarrollo Manual](#desarrollo-manual)
 - [Variables de Entorno](#variables-de-entorno)
 - [Referencia de API REST](#referencia-de-api-rest)
@@ -146,6 +147,19 @@ chmod +x iniciar.sh scripts/bootstrap.sh
 | `-BuildOnly` / `--build-only` | Compila el frontend Wasm y finaliza sin iniciar el servidor HTTP. |
 | `-CheckOnly` / `--check-only` | Verifica las dependencias del entorno. |
 | `-NoBrowser` / `--no-browser` | Inicia el servidor sin abrir el navegador. |
+
+---
+
+## Despliegue en Render
+
+El proyecto incluye un `Dockerfile` multietapa y una plantilla `render.yaml` para despliegue automático en [Render](https://render.com).
+
+### Pasos para desplegar:
+1. Entra a tu cuenta en [Render Dashboard](https://dashboard.render.com).
+2. Haz clic en **New +** y selecciona **Blueprint**.
+3. Conecta tu repositorio de GitHub `MituOS2/TBD-Supply`.
+4. Render detectará automáticamente el archivo `render.yaml` y creará el servicio web Docker con compilación del frontend WebAssembly y persistencia SQLite.
+5. Haz clic en **Apply** y tu tienda estará desplegada y accesible en tu subdominio de `.onrender.com`.
 
 ---
 
