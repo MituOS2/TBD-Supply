@@ -75,9 +75,15 @@ function serveStaticWeb(req, res, pathname, distWebDir) {
   const mimeType = STATIC_MIME[ext] || 'application/octet-stream';
   const stat = fs.statSync(targetPath);
 
+  const fileName = path.basename(targetPath).toLowerCase();
   const cacheControl =
-    ext === '.html' || path.basename(targetPath) === 'composeApp.js'
-      ? 'no-cache'
+    ext === '.html' ||
+    ext === '.wasm' ||
+    ext === '.js' ||
+    ext === '.mjs' ||
+    ext === '.css' ||
+    fileName.includes('composeapp')
+      ? 'no-cache, must-revalidate'
       : 'public, max-age=3600';
 
   res.writeHead(200, {
