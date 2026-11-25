@@ -2,61 +2,15 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <meta name="color-scheme" content="light dark" />
     <title>TBD.SUPPLY</title>
     <link rel="shortcut icon" href="./favicon.ico" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <script src="loading.js" type="application/javascript"></script>
-    <style>
-      #debug-log-console {
-        position: fixed;
-        bottom: 8px;
-        left: 8px;
-        right: 8px;
-        max-height: 160px;
-        background: rgba(10, 10, 15, 0.92);
-        color: #00ff66;
-        font-family: monospace;
-        font-size: 11px;
-        line-height: 1.4;
-        padding: 8px 12px;
-        border-radius: 8px;
-        z-index: 999999;
-        overflow-y: auto;
-        border: 1px solid rgba(0, 255, 102, 0.3);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-        pointer-events: auto;
-      }
-      #debug-log-console .log-err { color: #ff5555; font-weight: bold; }
-      #debug-log-console .log-warn { color: #ffbb00; }
-      #debug-log-console .log-info { color: #00e1ff; }
-    </style>
-    <script>
-      (function() {
-        window.addEventListener('DOMContentLoaded', function() {
-          var c = document.getElementById('debug-log-console');
-          function addLog(msg, type) {
-            if (!c) return;
-            var d = document.createElement('div');
-            if (type) d.className = 'log-' + type;
-            var time = new Date().toISOString().split('T')[1].slice(0, 8);
-            d.textContent = '[' + time + '] ' + msg;
-            c.appendChild(d);
-            c.scrollTop = c.scrollHeight;
-          }
-          window.addDebugLog = addLog;
-          addLog('Consola de depuración lista', 'info');
-          addLog('Navegador: ' + navigator.userAgent, 'info');
-        });
-        window.addEventListener('error', function(e) {
-          if (window.addDebugLog) window.addDebugLog('ERROR: ' + (e.message || e) + ' (' + (e.filename || '') + ':' + (e.lineno || '') + ')', 'err');
-        });
-        window.addEventListener('unhandledrejection', function(e) {
-          if (window.addDebugLog) window.addDebugLog('REJECTION: ' + (e.reason ? (e.reason.stack || e.reason) : e), 'err');
-        });
-      })();
-    </script>
   </head>
   <body>
     <div id="loading">
@@ -76,9 +30,6 @@
       </div>
     </div>
     <div id="composeApp"></div>
-    <div id="debug-log-console">
-      <div style="color:#3482ff;font-weight:bold">[DEBUG CONSOLE] TBD.SUPPLY</div>
-    </div>
   </body>
   <script defer src="composeApp.js" type="application/javascript"></script>
 </html>
