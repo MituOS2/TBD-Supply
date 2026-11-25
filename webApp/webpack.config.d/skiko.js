@@ -1,8 +1,7 @@
-// Prevent Webpack from wrapping modules in eval() and prevent tree-shaking of Skiko WASM exports
-config.devtool = false;
-
+// Disable Terser minification and tree shaking for Skiko WASM exports in Webpack
 if (config.optimization) {
+    config.optimization.minimize = false;
     config.optimization.sideEffects = false;
     config.optimization.usedExports = false;
-    config.optimization.minimize = false;
 }
+config.devtool = false;
