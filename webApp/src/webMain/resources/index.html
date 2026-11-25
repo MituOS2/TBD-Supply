@@ -7,56 +7,91 @@
     <title>TBD.SUPPLY</title>
     <link rel="shortcut icon" href="./favicon.ico" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <script src="loading.js" type="application/javascript"></script>
+
     <style>
       #debug-log-console {
         position: fixed;
         bottom: 8px;
         left: 8px;
         right: 8px;
-        max-height: 160px;
-        background: rgba(10, 10, 15, 0.92);
+        max-height: 180px;
+        background: rgba(10, 10, 15, 0.94);
         color: #00ff66;
-        font-family: monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 11px;
         line-height: 1.4;
         padding: 8px 12px;
         border-radius: 8px;
-        z-index: 999999;
+        z-index: 9999999;
         overflow-y: auto;
-        border: 1px solid rgba(0, 255, 102, 0.3);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 102, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         pointer-events: auto;
       }
       #debug-log-console .log-err { color: #ff5555; font-weight: bold; }
       #debug-log-console .log-warn { color: #ffbb00; }
       #debug-log-console .log-info { color: #00e1ff; }
     </style>
+
     <script>
+      // Force Webpack public path for WebAssembly asset resolution
+      window.__webpack_public_path__ = "./";
+
       (function() {
+        var logs = [];
+        var consoleElem = null;
+
+        function appendLogToDOM(msg, type) {
+          if (!consoleElem) consoleElem = document.getElementById('debug-log-console');
+          if (!consoleElem) return;
+          var d = document.createElement('div');
+          if (type) d.className = 'log-' + type;
+          var time = new Date().toISOString().split('T')[1].slice(0, 8);
+          d.textContent = '[' + time + '] ' + msg;
+          consoleElem.appendChild(d);
+          consoleElem.scrollTop = consoleElem.scrollHeight;
+        }
+
+        window.addDebugLog = function(msg, type) {
+          logs.push({ msg: msg, type: type });
+          appendLogToDOM(msg, type);
+        };
+
         window.addEventListener('DOMContentLoaded', function() {
-          var c = document.getElementById('debug-log-console');
-          function addLog(msg, type) {
-            if (!c) return;
-            var d = document.createElement('div');
-            if (type) d.className = 'log-' + type;
-            var time = new Date().toISOString().split('T')[1].slice(0, 8);
-            d.textContent = '[' + time + '] ' + msg;
-            c.appendChild(d);
-            c.scrollTop = c.scrollHeight;
-          }
-          window.addDebugLog = addLog;
-          addLog('Consola de depuración lista', 'info');
-          addLog('Navegador: ' + navigator.userAgent, 'info');
+          consoleElem = document.getElementById('debug-log-console');
+          window.addDebugLog('Consola de depuración lista en pantalla', 'info');
+          window.addDebugLog('Navegador: ' + navigator.userAgent, 'info');
+          logs.forEach(function(l) { appendLogToDOM(l.msg, l.type); });
         });
+
         window.addEventListener('error', function(e) {
-          if (window.addDebugLog) window.addDebugLog('ERROR: ' + (e.message || e) + ' (' + (e.filename || '') + ':' + (e.lineno || '') + ')', 'err');
+          window.addDebugLog('ERROR: ' + (e.message || e) + ' (' + (e.filename || '') + ':' + (e.lineno || '') + ')', 'err');
         });
+
         window.addEventListener('unhandledrejection', function(e) {
-          if (window.addDebugLog) window.addDebugLog('REJECTION: ' + (e.reason ? (e.reason.stack || e.reason) : e), 'err');
+          window.addDebugLog('REJECTION: ' + (e.reason ? (e.reason.stack || e.reason) : e), 'err');
         });
+
+        var origLog = console.log;
+        console.log = function() {
+          origLog.apply(console, arguments);
+          window.addDebugLog(Array.prototype.slice.call(arguments).join(' '));
+        };
+
+        var origErr = console.error;
+        console.error = function() {
+          origErr.apply(console, arguments);
+          window.addDebugLog(Array.prototype.slice.call(arguments).join(' '), 'err');
+        };
+
+        var origWarn = console.warn;
+        console.warn = function() {
+          origWarn.apply(console, arguments);
+          window.addDebugLog(Array.prototype.slice.call(arguments).join(' '), 'warn');
+        };
       })();
     </script>
+    <script src="loading.js" type="application/javascript"></script>
   </head>
   <body>
     <div id="loading">
@@ -79,6 +114,6 @@
     <div id="debug-log-console">
       <div style="color:#3482ff;font-weight:bold">[DEBUG CONSOLE] TBD.SUPPLY</div>
     </div>
+    <script src="composeApp.js" type="application/javascript"></script>
   </body>
-  <script defer src="composeApp.js" type="application/javascript"></script>
 </html>
