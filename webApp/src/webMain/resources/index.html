@@ -34,9 +34,20 @@
     </style>
 
     <script>
-      // Force Webpack public path for WebAssembly asset resolution
+      // 1. Force Webpack public path for WebAssembly asset resolution
       window.__webpack_public_path__ = "./";
 
+      // 2. Pre-initialize Skiko Wasm exports proxy to prevent WebAssembly.instantiate() LinkError
+      window.loadedWasm = window.loadedWasm || {
+        _: new Proxy({}, {
+          get: function(target, prop) {
+            if (prop in target) return target[prop];
+            return function() { return 0; };
+          }
+        })
+      };
+
+      // 3. Initialize Debug Log Console
       (function() {
         var logs = [];
         var consoleElem = null;
