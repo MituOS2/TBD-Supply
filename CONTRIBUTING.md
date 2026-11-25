@@ -20,7 +20,7 @@ Antes de abrir un Pull Request, ten en cuenta las reglas fundamentales del repos
 1. Asegúrate de tener instalados **Node.js >= 24**, **JDK 21+** y **Git**.
 2. Clona el repositorio y crea una rama descriptiva desde `main`:
    ```bash
-   git clone https://github.com/xUsoCarrusoX3/TBD-Supply.git
+   git clone https://github.com/MituOS2/TBD-Supply.git
    cd TBD-Supply
    git checkout -b feat/nombre-descriptivo
    ```
