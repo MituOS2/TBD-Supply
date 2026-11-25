@@ -13,7 +13,7 @@ export function applySecurityHeaders(res, { isMedia = false } = {}) {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'wasm-unsafe-eval'",
+      "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' blob: data:",
       "font-src 'self'",
